@@ -8,15 +8,23 @@ decision_matrix <- matrix(c(-20, 60, 30, -5,
                           dimnames = list(c("Corn", "Wheat", "Soya Beans", "Do Grazing"),
                                           c("Heavy Rainfall", "Moderate Rainfall", "Light Rainfall", "Drought")))
 
-print("Decision Matrix:")
+cat("\nDecision Matrix\n\n")
 print(decision_matrix)
 
 # Laplace method
 laplace <- rowMeans(decision_matrix)
 
-print("Laplace Method:")
+cat("\nLaplace Method\n")
 print(laplace)
 
-res <- which.max(laplace)
-op <- sprintf("\nThe optimal crop to plant is %s with a payoff of %.2f\n\n", names(res), laplace[res])
-print(op)
+# Maximization
+max_index <- which.max(laplace)
+
+# Minimization
+min_index <- which.min(laplace)
+
+op <- sprintf("\nThe optimal crop to plant is %s with a payoff of %.2f\n\n", names(max_index), laplace[max_index])
+cat(op)
+
+op <- sprintf("\nThe optimal crop to plant is %s with a cost of %.2f\n\n", names(min_index), laplace[min_index])
+cat(op)
