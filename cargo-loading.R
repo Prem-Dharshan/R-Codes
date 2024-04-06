@@ -3,6 +3,7 @@
 # values <- c(31, 47, 14)
 # capacity <- 4
 
+# Define the weights and values of the items and the capacity of the cargo
 weights <- as.numeric(strsplit(readline(prompt="Enter the weights of the items (comma-separated): "), ",")[[1]])
 values <- as.numeric(strsplit(readline(prompt="Enter the values of the items (comma-separated): "), ",")[[1]])
 capacity <- as.integer(readline(prompt="Enter the maximum weight capacity of the cargo: "))
@@ -21,7 +22,7 @@ for (i in 1:length(weights))
     } 
     else
     {
-      dp[i+1, j+1] <- max(dp[i, j+1], dp[i, j+1-weights[i]] + values[i])
+      dp[i+1, j+1] <- max(dp[i, j+1], dp[i+1, j+1-weights[i]] + values[i])
     }
   }
 }
@@ -34,7 +35,7 @@ solution <- integer(0)
 j <- capacity
 for (i in length(weights):1)
 {
-  if (dp[i+1, j+1] != dp[i, j+1])
+  while (j >= weights[i] && dp[i+1, j+1] == dp[i+1, j+1-weights[i]] + values[i]) 
   {
     solution <- c(solution, i)
     j <- j - weights[i]
