@@ -20,18 +20,18 @@ cat("\nRegret Table and Row Maximums\n")
 print(cbind(regret_table, row_min))
 
 cat("\nOptimal Decision\n")
-op <- sprintf("\n\tThe option with the lowest max value is %s with a max value of %.2f\n\n", names(optimum), row_max[optimum])
+op <- sprintf("\n\tThe decision is to choose %s with a max regret of %.2f\n\n", names(optimum), row_max[optimum])
 cat(op)
 
 
 # Savage method - Minimization
 regret_table <- apply(decision_matrix, 2, function(x) x - min(x))
-row_min<- apply(regret_table, 1, min)
+row_min <- apply(regret_table, 1, min)
 optimum <- which.max(row_min)
 
 cat("\nRegret Table and Row Minimums\n")
 print(cbind(regret_table, row_min))
 
-op <- sprintf("\n\tThe option with the highest min value is %s with a min value of %.2f\n\n", names(optimum), row_min[optimum])
+op <- sprintf("\n\tThe decision is to choose %s with a min regret of %.2f\n\n", names(optimum), row_min[optimum])
 cat(op)
 
