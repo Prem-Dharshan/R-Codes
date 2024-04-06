@@ -8,33 +8,40 @@ values <- as.numeric(strsplit(readline(prompt="Enter the values of the items (co
 capacity <- as.integer(readline(prompt="Enter the maximum weight capacity of the cargo: "))
 
 # Initialize the dynamic programming table
-dp <- matrix(0, length(weights)+1, capacity+1)
+dp <- matrix(0, length(weights) + 1, capacity + 1)
 
 # Fill the dynamic programming table
-for (i in 1:length(weights)) {
-  for (j in 0:capacity) {
-    if (weights[i] > j) {
+for (i in 1:length(weights)) 
+{
+  for (j in 0:capacity) 
+  {
+    if (weights[i] > j)
+    {
       dp[i+1, j+1] <- dp[i, j+1]
-    } else {
+    } 
+    else
+    {
       dp[i+1, j+1] <- max(dp[i, j+1], dp[i, j+1-weights[i]] + values[i])
     }
   }
 }
 
-# Print the dynamic programming table
+# Dynamic programming table
 print(dp)
 
 # Trace back the solution
 solution <- integer(0)
 j <- capacity
-for (i in length(weights):1) {
-  if (dp[i+1, j+1] != dp[i, j+1]) {
+for (i in length(weights):1)
+{
+  if (dp[i+1, j+1] != dp[i, j+1])
+  {
     solution <- c(solution, i)
     j <- j - weights[i]
   }
 }
 
-# Print the solution
+# Solution
 cat("Selected cargos:", solution, "\n")
 cat("Maximum value of loaded cargos:", dp[length(weights)+1, capacity+1], "\n")
 cat("Total weight of selected cargos:", sum(weights[solution]), "\n")
