@@ -22,9 +22,12 @@ result <- optim(x0, f, method = "BFGS")
 
 # Extract results
 minimum_point <- result$par
-minimum_value <- -result$value
+minimum_value <- result$value
 # maximum_point <- result$par
-# maximum_value <- result$value
+# maximum_value <- -result$value
+
+# Check if optimization has converged
+converged <- result$convergence == 0
 
 # Calculate the number of iterations (approximation)
 num_iterations <- result$counts[["function"]]  # Corrected access to function evaluations
@@ -43,3 +46,6 @@ cat(num_iterations, "\n")
 # cat(maximum_value, "\n")
 # cat("Number of iterations:\n")
 # cat(num_iterations, "\n")
+
+cat("Converged:\n")
+cat(converged, "\n")
