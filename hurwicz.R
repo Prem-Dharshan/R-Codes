@@ -11,10 +11,12 @@ decision_matrix <- matrix(c(-20, 60, 30, -5,
 cat("\nDecision Matrix:\n")
 print(decision_matrix)
 
+alpha <- as.numeric(readline(prompt = "Enter the alpha: "))
+
 # Hurwicz method - Maximization
 row_min <- apply(decision_matrix, 1, min)
 row_max <- apply(decision_matrix, 1, max)
-hurwicz <- apply(decision_matrix, 1, function(x) 0.5 * min(x) + 0.5 * max(x))
+hurwicz <- apply(decision_matrix, 1, function(x) alpha * min(x) + (1 - alpha) * max(x))
 
 # Finding the optimal decision - max
 optimum <- which.max(hurwicz)

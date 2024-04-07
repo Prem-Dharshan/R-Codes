@@ -62,5 +62,5 @@ lp_result <- lp(optimization_direction, objective_coefficients, constraint_coeff
 #   p <- p + geom_polygon(data = unbounded_region, aes(x = x, y = y), fill = "blue", alpha = 0.3)
 # }
 
-print(lp_result)
+# print(lp_result)
 print(p)

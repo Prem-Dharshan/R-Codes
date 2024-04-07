@@ -17,6 +17,8 @@ f <- eval(parse(text=paste("function(x) {", f_string, "}")))
 
 # Set the initial point
 x <- c(0, 0)
+x <- as.numeric(unlist(strsplit(readline(prompt = "Enter the intial point for line search (comma-separated): "), ',')))
+interval <- as.numeric(unlist(strsplit(readline(prompt = "Enter the interval for line search (comma-separated): "), ',')))
 
 # Cauchy method
 for (i in 1:50) {
@@ -26,7 +28,7 @@ for (i in 1:50) {
   
   # Line search
   line_search <- function(lambda) f(x + lambda * s)
-  opt <- optimize(line_search, c(0, 10))
+  opt <- optimize(line_search, interval)
   lambda <- opt$minimum
   
   # Update the current point
