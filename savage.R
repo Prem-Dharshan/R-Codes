@@ -17,7 +17,7 @@ row_max <- apply(regret_table, 1, max)
 optimum <- which.min(row_max)
 
 cat("\nRegret Table and Row Maximums\n")
-print(cbind(regret_table, row_min))
+print(cbind(regret_table, row_max))
 
 cat("\nOptimal Decision\n")
 op <- sprintf("\n\tThe decision is to choose %s with a max regret of %.2f\n\n", names(optimum), row_max[optimum])
