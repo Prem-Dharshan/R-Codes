@@ -5,6 +5,7 @@
 
 # Ask the user for the function as a string
 f_string <- readline(prompt="Enter the function as a string: ")
+# x1-x2+2*x1^2+2*x1*x2+x2^2
 
 # Replace 'x1' and 'x2' with 'x[1]' and 'x[2]'
 f_string <- gsub("x1", "x[1]", f_string)
