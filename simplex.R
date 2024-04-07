@@ -37,8 +37,13 @@ rhs_values <- get_user_input("Enter the right-hand side values of constraints (c
 constraint_direction <- readline(prompt = "Enter the constraint directions (e.g., '<=', '>=', or '==', comma-separated): ")
 constraint_direction <- strsplit(constraint_direction, ",")[[1]]
 
+max_min <- readline(prompt = "Enter 'max' for maximization or 'min' for minimization: ")
+if (max_min != "max" && max_min != "min") {
+  stop("Invalid input. Please enter 'max' or 'min'.")
+}
+
 # Solve the Linear Programming Problem (LPP)
-lp_result <- lp("max", objective_coefficients, constraint_coefficients, constraint_direction, rhs_values)
+lp_result <- lp(max_min, objective_coefficients, constraint_coefficients, constraint_direction, rhs_values)
 
 # Extract the optimal solution and the optimal objective function value
 optimal_solution <- lp_result$solution
