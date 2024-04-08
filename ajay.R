@@ -1,11 +1,17 @@
-library(gMOIP)
 library(lpSolve)
 library(ggplot2)
 
-constraint_coefficients <- matrix(c(1,-2,1,0,0,1), ncol = 2, byrow = TRUE)
-lp_result <- lp("max", c(3,5), constraint_coefficients, c("<=","<=",">="), c(6,10,1))
+# ? <- function(x, y) if (x) y[[1]] else y[[2]]
+# : <- function(y, z) list(y, z)
 
-status <- lp_result$status
+get_matrix <- function(n_rows, n_cols) {
+  cat("Enter the matrix elements row-wise:")
+  input_matrix <- matrix(
+    scan(n = n_cols * n_rows),
+    nrow = n_rows, ncol = n_cols, byrow = T
+  )
+  return(input_matrix)
+}
 
 feasible_region <- function(obj, mat, dir, rhs, ans) {
   x_vals <- seq(0, 10, by = 0.01)
@@ -23,23 +29,69 @@ feasible_region <- function(obj, mat, dir, rhs, ans) {
     }
     df$feasible <- df$feasible & l
   }
+  
+  
+  t <- ggplot(df, aes(x, y)) +
+    geom_tile(aes(fill = df$feasible), color = "#ffffff") +
+    geom_contour(
+      data = df[df$feasible, ],
+      aes(z = obj[1] * x + obj[2] * y),
+      color = "#0000FF") +
+    geom_point(aes(x = ans[1], y = ans[2]), color = "#FF0000", size = 3) +
+    labs(
+      title = "Feasible Region for LP Problem",
+      x = "x", y = "y"
+    ) +
+    theme_minimal()
+  
+  for (i in seq_len(nrow(mat))) {
+    t <- t +
+      stat_function(
+        fun = function(x, m, b) {
+          m * x + b
+        },
+        args = list(
+          m = -mat[i, 1] / mat[i, 2],
+          b = rhs[i] / mat[i, 2]
+        ),
+      )
+  }
+  t <- t + coord_cartesian(ylim = c(0, 10), xlim = c(0,10))
+  
+  return(t)
 }
 
-if (status == 0) {
-  print("The optimization problem was solved to optimality, and an optimal solution was found.")
-} else if (status == 1) {
-  print("The optimization problem was solved, but the solution found is suboptimal.")
-} else if (status == 2) {
-  print("The optimization problem is infeasible, meaning that no feasible solution exists that satisfies all the constraints.")
-} else if (status == 3) {
-  print(feasible_region(c(3,5), constraint_coefficients, c("<=","<=",">="), c(6,10,1), lp_result$solution))
-  print("The optimization problem is unbounded, meaning that the objective function can be improved indefinitely without violating any constraints.")
-} else if (status == 4) {
-  print("The optimization problem is degenerate, meaning that there are multiple optimal solutions with the same objective function value.")
-} else if (status == 5) {
-  print("The optimization failed due to numerical issues, such as overflow or underflow.")
-} else if (status == 6) {
-  print("The optimization problem was not solved for some reason.")
+lp.constraints <- as.integer(readline("Enter the number of constraints :"))
+lp.vars <- as.integer(readline("Enter the number of variables :"))
+
+cat("Enter the objective coeffts :")
+obj <- scan(n = lp.vars)
+cat("Enter the constraints coeffts :")
+mat <- get_matrix(lp.constraints, lp.vars)
+dir <- strsplit(
+  readline(
+    "Enter direction of constraints (<=,=,>=) in space separated list :"), " "
+)[[1]]
+cat("Enter the RHS :")
+rhs <- scan(n = lp.constraints)
+
+
+result.simplex <- lp("max", obj, mat, dir, rhs)
+
+if (result.simplex$status == 0) {
+  cat("The value of decision variables are :")
+  print(result.simplex$solution)
+  cat("Objective value:")
+  print(result.simplex$objval)
+} else{
+  cat("Infeasible solution.")
+}
+
+t <- 10
+
+if (lp.vars == 2) {
+  t <- feasible_region(obj, mat, dir, rhs, result.simplex$solution)
+  print(t)
 } else {
-  print("Unknown status code returned.")
+  print("More than 2 decision variables. Graph is not plotted")
 }

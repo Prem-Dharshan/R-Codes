@@ -41,7 +41,7 @@ p <- plotPolytope(
   constraint_coefficients,
   rhs_values,
   objective_coefficients,
-  type = rep("c", ncol(constraint_coefficients)),
+  # type = rep("c", ncol(constraint_coefficients)),
   crit = optimization_direction,
   faces = rep("c", ncol(constraint_coefficients)),
   plotFaces = TRUE,
@@ -53,4 +53,4 @@ p <- plotPolytope(
 
 lp_result <- lp(optimization_direction, objective_coefficients, constraint_coefficients, constraint_direction, rhs_values)
 
-print(g)
+print(p)
