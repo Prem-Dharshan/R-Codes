@@ -1,15 +1,34 @@
 # Define decision matrix with row and column names
-decision_matrix <- matrix(c(-20, 60, 30, -5,
-                            40, 50, 35, 0,
-                            -50, 100, 45, -10,
-                            12, 15, 15, 10), 
-                          nrow = 4, 
-                          byrow = TRUE,
-                          dimnames = list(c("Corn", "Wheat", "Soya Beans", "Do Grazing"),
-                                          c("Heavy Rainfall", "Moderate Rainfall", "Light Rainfall", "Drought")))
+# decision_matrix <- matrix(c(-20, 60, 30, -5,
+#                             40, 50, 35, 0,
+#                             -50, 100, 45, -10,
+#                             12, 15, 15, 10), 
+#                           nrow = 4, 
+#                           byrow = TRUE,
+#                           dimnames = list(c("Corn", "Wheat", "Soya Beans", "Do Grazing"),
+#                                           c("Heavy Rainfall", "Moderate Rainfall", "Light Rainfall", "Drought")))
+# 
+# cat("\nDecision Matrix\n")
+# print(decision_matrix)
 
-cat("\nDecision Matrix\n")
-print(decision_matrix)
+# cat("\nEnter the decision matrix values row-wise, separated by spaces:\n")
+# decision_matrix <- matrix(scan(), 
+#                           nrow = 4, 
+#                           byrow = TRUE,
+#                           dimnames = list(c("Corn", "Wheat", "Soya Beans", "Do Grazing"),
+#                                           c("Heavy Rainfall", "Moderate Rainfall", "Light Rainfall", "Drought")))
+# 
+# cat("\nDecision Matrix\n")
+# print(decision_matrix)
+
+for (i in 1:4) {
+  for (j in 1:4) {
+    cat("Enter value for", rownames(decision_matrix)[i], "-", colnames(decision_matrix)[j], ": ")
+    decision_matrix[i, j] <- as.numeric(readline(prompt = ""))
+  }
+}
+
+
 
 # Savage method - Maximization
 regret_table <- apply(decision_matrix, 2, function(x) max(x) - x)

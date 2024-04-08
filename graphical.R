@@ -1,4 +1,6 @@
 library(gMOIP)
+library(lpSolve)
+library(ggplot2)
 
 # constraint_coefficients <- matrix(c(6,4,1,2,-1,1,0,1), ncol = 2, byrow = TRUE)
 # rhs <- c(24,6,1,2)
@@ -50,17 +52,5 @@ p <- plotPolytope(
 )
 
 lp_result <- lp(optimization_direction, objective_coefficients, constraint_coefficients, constraint_direction, rhs_values)
-# 
-# if (lp_result$status == 3) {
-#   # Find the unbounded region based on the constraints
-#   constraint_coefficients <- lp_result$solution[constraint_coefficients, ]
-#   rhs_values <- lp_result$solution[rhs_values]
-#   unbounded_region <- findUnboundedRegion(constraint_coefficients, rhs, lp_result$solution, 1000)  # 1000 is the maximum number of iterations
-# }
-# 
-# if (exists("unbounded_region")) {
-#   p <- p + geom_polygon(data = unbounded_region, aes(x = x, y = y), fill = "blue", alpha = 0.3)
-# }
 
-# print(lp_result)
-print(p)
+print(g)
